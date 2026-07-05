@@ -63,7 +63,7 @@ function seedAnalytics(): Analytics {
   }));
   const forecastNext24h = Array.from({ length: 24 }, (_, h) => ({
     hour: h,
-    liters: Math.round(70 + 210 * Math.exp(-Math.pow((h - 11) / 3) ** 2) + 90 * Math.exp(-Math.pow((h - 19) / 2.8, 2))),
+    liters: Math.round(70 + 210 * Math.exp(-Math.pow((h - 11) / 3, 2)) + 90 * Math.exp(-Math.pow((h - 19) / 2.8, 2))),
   }));
   const anomalyScore = Array.from({ length: 24 }, (_, h) => ({
     hour: h,
