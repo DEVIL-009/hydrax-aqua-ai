@@ -142,7 +142,7 @@ function Overview() {
                 <Tooltip
                   contentStyle={{ background: "oklch(0.2 0.02 250 / 90%)", border: "1px solid var(--border)", borderRadius: 12 }}
                   labelFormatter={(t) => new Date(Number(t)).toLocaleTimeString()}
-                  formatter={(v: number) => [`${v.toFixed(2)} L/min`, "Flow"]}
+                  formatter={(v) => [`${Number(v).toFixed(2)} L/min`, "Flow"]}
                 />
                 <Area type="monotone" dataKey="flow" stroke="var(--primary)" strokeWidth={2} fill="url(#flowGrad)" isAnimationActive={false} />
               </AreaChart>
