@@ -79,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "HYDRAX — Smart Water Conservation & AI Management" },
+      { title: "Overview · HYDRAX Dashboard" },
       {
         name: "description",
         content:
           "HYDRAX is an AI-powered smart water monitoring, leak detection and valve control dashboard for schools, colleges and large institutions.",
       },
       { name: "author", content: "HYDRAX" },
-      { property: "og:title", content: "HYDRAX — Smart Water Conservation & AI Management" },
+      { property: "og:title", content: "Overview · HYDRAX Dashboard" },
       {
         property: "og:description",
         content:
@@ -94,6 +94,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Overview · HYDRAX Dashboard" },
+      { name: "description", content: "Realtime overview of water flow, valve status, AI predictions and consumption across HYDRAX IoT nodes." },
+      { property: "og:description", content: "Realtime overview of water flow, valve status, AI predictions and consumption across HYDRAX IoT nodes." },
+      { name: "twitter:description", content: "Realtime overview of water flow, valve status, AI predictions and consumption across HYDRAX IoT nodes." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7093ae16-a8e3-4b20-b239-783f52708a63/id-preview-5b6ac7f6--3798c42c-4b52-488d-a30f-b8547db90954.lovable.app-1783267846454.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7093ae16-a8e3-4b20-b239-783f52708a63/id-preview-5b6ac7f6--3798c42c-4b52-488d-a30f-b8547db90954.lovable.app-1783267846454.png" },
     ],
     links: [
       {
