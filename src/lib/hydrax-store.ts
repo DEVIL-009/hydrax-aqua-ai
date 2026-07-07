@@ -203,28 +203,32 @@ function startSimulator() {
   if (simTimer) return;
   simTimer = setInterval(() => {
     const s = snapshot;
-    const node = s.nodes.testNode;
-    if (!node) return;
-    const drift = (Math.random() - 0.5) * 2.5;
-    const newFlow = Math.max(0, node.valveState === "closed" ? 0 : node.flowRate + drift);
-    const perTick = (newFlow / 60) * 3; // 3s tick, L/min -> L
-    const nextLive = [...s.analytics.liveFlow.slice(-59), { t: Date.now(), flow: Number(newFlow.toFixed(2)) }];
+    const nextNodes: Record<string, HydraxNode> = {};
+    let totalPerTick = 0;
+    let totalFlow = 0;
+    for (const [id, node] of Object.entries(s.nodes)) {
+      if (!node.online) { nextNodes[id] = node; continue; }
+      const drift = (Math.random() - 0.5) * Math.max(1, node.flowRate * 0.15);
+      const newFlow = Math.max(0, node.valveState === "closed" ? 0 : node.flowRate + drift);
+      const perTick = (newFlow / 60) * 3;
+      totalPerTick += perTick;
+      totalFlow += newFlow;
+      nextNodes[id] = {
+        ...node,
+        flowRate: Number(newFlow.toFixed(2)),
+        todayUsage: Math.round(node.todayUsage + perTick),
+        lastUpdate: Date.now(),
+        signal: Math.max(30, Math.min(100, node.signal + (Math.random() - 0.5) * 3)),
+        leakProbability: Math.max(0, Math.min(1, node.leakProbability + (Math.random() - 0.5) * 0.015)),
+      };
+    }
+    const nextLive = [...s.analytics.liveFlow.slice(-59), { t: Date.now(), flow: Number(totalFlow.toFixed(2)) }];
     snapshot = {
       ...s,
-      nodes: {
-        ...s.nodes,
-        testNode: {
-          ...node,
-          flowRate: Number(newFlow.toFixed(2)),
-          todayUsage: Math.round(node.todayUsage + perTick),
-          lastUpdate: Date.now(),
-          signal: Math.max(30, Math.min(100, node.signal + (Math.random() - 0.5) * 4)),
-          leakProbability: Math.max(0, Math.min(1, node.leakProbability + (Math.random() - 0.5) * 0.02)),
-        },
-      },
+      nodes: nextNodes,
       analytics: {
         ...s.analytics,
-        todayConsumption: Math.round(s.analytics.todayConsumption + perTick),
+        todayConsumption: Math.round(s.analytics.todayConsumption + totalPerTick),
         liveFlow: nextLive,
       },
       esp32: { ...s.esp32, uptimeSec: s.esp32.uptimeSec + 3, lastUpdate: Date.now() },
